@@ -1,0 +1,54 @@
+@import "../styles/variables";
+
+.header {
+  height: $header-height;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(90deg, #bdc3c7, #2c3e50);
+  display: flex;
+  align-items: center;
+
+  &__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__logo-search-wrap {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  &__logo {
+    max-width: 150px;
+    color: $primary-white-color;
+
+    h1 {
+      font-size: 1.3rem;
+      line-height: 0.8;
+    }
+  }
+
+  &__list {
+    display: flex;
+    justify-content: space-around;
+    height: 100%;
+    min-width: 200px;
+
+    &--create {
+      border: 1px solid $primary-white-color;
+      border-radius: $primary-border-radius;
+      padding: 10px;
+
+      &:hover {
+        background-color: $light-gray-color;
+      }
+    }
+
+    a {
+      color: $primary-white-color;
+    }
+  }
+}

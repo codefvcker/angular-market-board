@@ -1,1 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.css";
+@import url("https://fonts.googleapis.com/css?family=Roboto");
+@import "./app/shared/styles/variables";
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background: #e4e5e6;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}

@@ -1,0 +1,36 @@
+<div class="header">
+  <div class="container header__container">
+    <div class="header__logo-search-wrap">
+      <div class="header__logo">
+        <h1>MARKET BOARD</h1>
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="searchHandler()">
+        <div class="input-group flex-nowrap">
+          <div class="input-group-prepend">
+            <span class="input-group-text" id="addon-wrapping">
+              <i class="material-icons">search</i>
+            </span>
+          </div>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="clothes, sport..."
+            formControlName="search"
+          />
+        </div>
+      </form>
+    </div>
+
+    <nav>
+      <ul class="header__list">
+        <li>
+          <a href="#" class="header__list--create">Create listing</a>
+        </li>
+        <li>
+          <a href="#">Login</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>

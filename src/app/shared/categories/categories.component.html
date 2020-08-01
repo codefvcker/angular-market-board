@@ -1,0 +1,12 @@
+<div class="categories">
+  <div class="container">
+    <ul class="categories__list">
+      <li
+        *ngFor="let category of categories"
+        (click)="chooseCategoryHandler(category.id)"
+      >
+        {{ category.name | titlecase }}
+      </li>
+    </ul>
+  </div>
+</div>
