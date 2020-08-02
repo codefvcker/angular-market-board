@@ -2,7 +2,7 @@
   <div class="container header__container">
     <div class="header__logo-search-wrap">
       <div class="header__logo">
-        <h1>MARKET BOARD</h1>
+        <h1 [routerLink]="['/']">MARKET BOARD</h1>
       </div>
 
       <form [formGroup]="form" (ngSubmit)="searchHandler()">
@@ -28,7 +28,7 @@
           <a href="#" class="header__list--create">Create listing</a>
         </li>
         <li>
-          <a href="#">Login</a>
+          <a [routerLink]="['/login']">Login</a>
         </li>
       </ul>
     </nav>

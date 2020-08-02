@@ -1,0 +1,22 @@
+@import "../../shared/styles/variables";
+
+.signin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: $page-height;
+
+  &__form {
+    min-width: 500px;
+    padding: 20px 10px;
+    box-shadow: $secondary-box-shadow;
+
+    h1 {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+  }
+}
