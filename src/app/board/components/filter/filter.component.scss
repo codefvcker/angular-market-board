@@ -1,0 +1,30 @@
+@import "../../../shared/styles/variables";
+
+.filter {
+  display: flex;
+  flex-direction: column;
+  box-shadow: $secondary-box-shadow;
+  border-radius: $primary-border-radius;
+  padding: 30px 10px;
+
+  h2 {
+    color: $light-gray-color;
+  }
+
+  &__control {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 0 5px;
+    margin: 7px 0;
+
+    .price-wrap {
+      display: flex;
+      justify-content: space-between;
+
+      * {
+        width: 49%;
+      }
+    }
+  }
+}

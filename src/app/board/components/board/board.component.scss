@@ -1,0 +1,19 @@
+@import "../../../shared/styles/variables";
+
+.board {
+  overflow: auto;
+  width: 100%;
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 30px;
+
+  &__filter {
+    width: 29%;
+  }
+
+  &__content {
+    border: 1px solid green;
+    width: 70%;
+  }
+}

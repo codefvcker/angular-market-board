@@ -1,10 +1,6 @@
 @import "../styles/variables";
 
 .categories {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: $header-height;
   height: $categories-height;
   display: flex;
   align-items: center;
