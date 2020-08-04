@@ -81,9 +81,11 @@
     <button
       type="submit"
       class="btn btn-primary"
-      [disabled]="loginForm.invalid"
+      [disabled]="loginForm.invalid || isSubmited"
     >
       Submit
     </button>
   </form>
 </div>
+
+<button (click)="logoutHandler()" class="btn btn-primary">Logout</button>

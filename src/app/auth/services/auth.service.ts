@@ -8,7 +8,7 @@ import {
   AngularFirestore,
   AngularFirestoreDocument,
 } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Observable, of, defer } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -19,25 +19,43 @@ export class AuthService {
     private router: Router
   ) {}
 
-  async signIn(email, password) {
-    const credential = await this.afAuth.createUserWithEmailAndPassword(
-      email,
-      password
-    );
-    return this.updateUser(credential.user);
+  signUp(email: string, password: string): Observable<IUser> {
+    return defer(() => {
+      return this.afAuth
+        .createUserWithEmailAndPassword(email, password)
+        .then((credentials) => {
+          this.addNewUser(credentials.user);
+          return credentials.user;
+        });
+    });
   }
 
-  async updateUser({ uid, email }: IUser) {
-    const userRef: AngularFirestoreDocument<IUser> = this.af.doc(
-      `users/${uid}`
-    );
+  logIn(email: string, password: string): Observable<IUser> {
+    return defer(() => {
+      return this.afAuth
+        .signInWithEmailAndPassword(email, password)
+        .then((credentials) => {
+          return credentials.user;
+        });
+    });
+  }
+
+  signOut() {
+    return defer(() => {
+      return this.afAuth.signOut();
+    });
+  }
+
+  isAuthenticated(): boolean {
+    return localStorage.getItem('userCreds') ? true : false;
+  }
+
+  addNewUser({ uid, email }: IUser) {
     const data = {
       uid,
       email,
     };
 
-    userRef.set(data, {
-      merge: true,
-    });
+    this.af.doc(`users/${uid}`).set(data);
   }
 }

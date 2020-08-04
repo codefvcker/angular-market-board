@@ -1,3 +1,4 @@
+import { AlertService } from './services/alert.service';
 import { AppRoutingModule } from './../app-routing.module';
 import { CommonModule } from '@angular/common';
 import { CategoriesService } from './services/categories.service';
@@ -10,6 +11,7 @@ import { ErrorPageComponent } from './error-page/error-page.component';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { environment } from './../../environments/environment';
+import { AlertComponent } from './alert/alert.component';
 
 @NgModule({
   imports: [
@@ -20,16 +22,22 @@ import { environment } from './../../environments/environment';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireDatabaseModule,
   ],
-  declarations: [HeaderComponent, CategoriesComponent, ErrorPageComponent],
+  declarations: [
+    HeaderComponent,
+    CategoriesComponent,
+    ErrorPageComponent,
+    AlertComponent,
+  ],
   exports: [
     HeaderComponent,
     CategoriesComponent,
     ErrorPageComponent,
+    AlertComponent,
     FormsModule,
     ReactiveFormsModule,
     AngularFireModule,
     AngularFireDatabaseModule,
   ],
-  providers: [CategoriesService],
+  providers: [CategoriesService, AlertService],
 })
 export class SharedModule {}
