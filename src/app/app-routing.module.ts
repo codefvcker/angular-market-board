@@ -1,3 +1,4 @@
+import { TrainingComponent } from './shared/playground/training/training.component';
 import { SignGuard } from './auth/guards/sign.guard';
 import { AuthGuard } from './auth/guards/auth.guard';
 import { AccountPageComponent } from './account/account-page/account-page.component';
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'listings', component: BoardComponent },
   { path: 'login', component: LoginPageComponent, canActivate: [SignGuard] },
   { path: 'signup', component: SignupPageComponent, canActivate: [SignGuard] },
+  { path: 'training', component: TrainingComponent },
   {
     path: 'account',
     component: AccountPageComponent,
