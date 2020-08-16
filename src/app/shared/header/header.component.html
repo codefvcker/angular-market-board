@@ -25,11 +25,17 @@
     <nav>
       <ul class="header__list">
         <li>
-          <a href="#" class="header__list--create">Create listing</a>
+          <a [routerLink]="['/listing', 'create']" class="header__list--create">Create listing</a>
         </li>
-        <li>
+        <li *ngIf='!isLogged; else isLoggedPanel'>
           <a [routerLink]="['/login']">Login</a>
         </li>
+        <ng-template #isLoggedPanel>
+          <li>
+            <a [routerLink]="['/account']">Account</a>
+            <button (click)="logout()">Logout</button>
+          </li>
+        </ng-template> 
       </ul>
     </nav>
   </div>

@@ -1,3 +1,4 @@
+import { ListingModule } from './listing/listing.module';
 import { AccountModule } from './account/account.module';
 import { AuthModule } from './auth/auth.module';
 import { BoardModule } from './board/board.module';
@@ -17,6 +18,7 @@ import { AppComponent } from './app.component';
     BoardModule,
     AuthModule,
     AccountModule,
+    ListingModule
   ],
   providers: [],
   bootstrap: [AppComponent],

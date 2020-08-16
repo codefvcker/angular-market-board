@@ -3,6 +3,12 @@
     <app-filter></app-filter>
   </div>
   <div class="board__content">
-    {{ qP.cat }}
+    <app-vip-section></app-vip-section>
+    <div class="board__main-section">
+      <app-listing-card
+        *ngFor="let listing of listings$"
+        [listing]="listing"
+      ></app-listing-card>
+    </div>
   </div>
 </div>

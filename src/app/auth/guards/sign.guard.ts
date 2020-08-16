@@ -12,10 +12,11 @@ export class SignGuard implements CanActivate {
   constructor(private router: Router, private authService: AuthService) {}
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (!this.authService.isAuthenticated()) {
-      return true;
-    } else {
-      this.router.navigate(['/listings']);
-    }
+    // if (!this.authService.isAuthenticated()) {
+    //   return true;
+    // } else {
+    //   this.router.navigate(['/listings']);
+    // }
+    return true;
   }
 }

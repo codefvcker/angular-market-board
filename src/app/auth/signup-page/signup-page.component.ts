@@ -1,11 +1,10 @@
+import { AlertService } from './../../shared/services/alert.service';
 import { AuthService } from '../services/auth.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import {
   AngularFirestore,
-  // AngularFirestoreDocument,
-  // AngularFirestoreCollection,
 } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 
@@ -23,7 +22,8 @@ export class SignupPageComponent implements OnInit, OnDestroy {
   constructor(
     private af: AngularFirestore,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private alert: AlertService
   ) {}
 
   ngOnInit(): void {
@@ -66,12 +66,11 @@ export class SignupPageComponent implements OnInit, OnDestroy {
         this.authService
           .signUp(this.signinForm.value.email, this.signinForm.value.password)
           .subscribe(
-            (credentials) => {
-              localStorage.setItem('userCreds', credentials.email);
+            () => {
               this.router.navigate(['/listings']);
             },
-            (err) => {
-              console.log('catch the error', err.message);
+            (error) => {
+              this.alert.danger(error.message)
             }
           )
       );

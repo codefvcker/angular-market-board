@@ -1,5 +1,8 @@
+import { Ilisting } from './../../listing/interfaces/listing.interface';
+
 export interface IUser {
   email: string;
-  password?: string;
   uid?: string;
+  name?: string;
+  surname?: string;
 }

@@ -28,13 +28,8 @@ export class CategoriesComponent implements OnInit, OnDestroy {
     );
   }
 
-  chooseCategoryHandler(id: string) {
-    this.router.navigate([''], {
-      queryParams: {
-        cat: id,
-      },
-    });
-    this.categoriesService.getListingsByCategoryId(id);
+  chooseCategoryHandler(categoryId: string) {
+    this.categoriesService.getListingsByCategoryId(categoryId);
   }
 
   ngOnInit(): void {

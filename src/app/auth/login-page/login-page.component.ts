@@ -1,3 +1,4 @@
+import { AlertService } from './../../shared/services/alert.service';
 import { Subscription } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AuthService } from './../services/auth.service';
@@ -16,7 +17,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
   public isSubmited: boolean;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private alert: AlertService) {}
 
   ngOnInit(): void {
     this.initializeForm();
@@ -34,9 +35,7 @@ export class LoginPageComponent implements OnInit, OnDestroy {
 
   logoutHandler() {
     this.subscription.add(
-      this.authService.signOut().subscribe((data) => {
-        localStorage.clear();
-      })
+      this.authService.signOut()
     );
   }
 
@@ -55,12 +54,11 @@ export class LoginPageComponent implements OnInit, OnDestroy {
             })
           )
           .subscribe(
-            (credentials) => {
-              localStorage.setItem('userCreds', credentials.email);
+            () => {
               this.router.navigate(['/listings']);
             },
             (error) => {
-              console.log('Error while login', error.message);
+              this.alert.danger(error.message);
             }
           )
       );

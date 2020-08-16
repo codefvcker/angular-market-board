@@ -7,9 +7,9 @@
   border-radius: $primary-border-radius;
   padding: 30px 10px;
 
-  h2 {
-    color: $light-gray-color;
-  }
+  // h2 {
+  // color: $light-gray-color;
+  // }
 
   &__control {
     display: flex;
@@ -26,5 +26,9 @@
         width: 49%;
       }
     }
+  }
+
+  &__btn {
+    margin-top: 15px;
   }
 }

@@ -1,21 +1,44 @@
 <form class="filter" [formGroup]="filterForm">
   <h2>{{ "filter" | uppercase }}</h2>
   <div class="filter__control">
-    <label for="exampleFormControlSelect1">Example select</label>
-    <select class="form-control" id="exampleFormControlSelect1">
-      <option>1</option>
-      <option>2</option>
-      <option>3</option>
-      <option>4</option>
-      <option>5</option>
+    <label for="city">City</label>
+    <select class="form-control" id="city" formControlName="city">
+      <option value="01">Brest</option>
+      <option value="02">Vitebsk</option>
+      <option value="03">Gomel</option>
+      <option value="04">Grodno</option>
+      <option value="05">Minsk obl.</option>
+      <option value="06">Mogilev</option>
+      <option value="07">Minsk</option>
+    </select>
+  </div>
+
+  <div class="filter__control">
+    <label for="category">Category</label>
+    <select class="form-control" id="category" formControlName="category">
+      <option value="sport01">Sport</option>
+      <option value="male01">Male</option>
+      <option value="female01">Female</option>
+      <option value="clothes01">Clothes</option>
+      <option value="electro01">Electronics</option>
     </select>
   </div>
 
   <div class="filter__control">
     <span>Price:</span>
     <div class="price-wrap">
-      <input class="form-control" type="text" placeholder="from" />
-      <input class="form-control" type="text" placeholder="to" />
+      <input
+        class="form-control"
+        type="number"
+        placeholder="from"
+        formControlName="from"
+      />
+      <input
+        class="form-control"
+        type="number"
+        placeholder="to"
+        formControlName="to"
+      />
     </div>
   </div>
 
@@ -25,12 +48,13 @@
       <input
         class="form-check-input"
         type="radio"
-        name="exampleRadios"
-        id="exampleRadios1"
-        value="option1"
+        name="state"
+        id="all"
+        value="all"
+        formControlName="state"
         checked
       />
-      <label class="form-check-label" for="exampleRadios1">
+      <label class="form-check-label" for="all">
         All
       </label>
     </div>
@@ -38,11 +62,12 @@
       <input
         class="form-check-input"
         type="radio"
-        name="exampleRadios"
-        id="exampleRadios2"
-        value="option2"
+        name="state"
+        id="new"
+        value="new"
+        formControlName="state"
       />
-      <label class="form-check-label" for="exampleRadios2">
+      <label class="form-check-label" for="new">
         New
       </label>
     </div>
@@ -50,13 +75,17 @@
       <input
         class="form-check-input"
         type="radio"
-        name="exampleRadios"
-        id="exampleRadios2"
-        value="option2"
+        name="state"
+        id="used"
+        value="used"
+        formControlName="state"
       />
-      <label class="form-check-label" for="exampleRadios2">
+      <label class="form-check-label" for="used">
         Used
       </label>
     </div>
   </div>
+  <button (click)="resetFilter()" class="btn btn-primary filter__btn">
+    Reset filter
+  </button>
 </form>

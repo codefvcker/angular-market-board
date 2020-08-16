@@ -1,3 +1,4 @@
+import { FilterService } from './../../board/services/filter.service';
 import { Category } from './../interfaces/category.interface';
 import { Injectable } from '@angular/core';
 import { of, Observable } from 'rxjs';
@@ -27,13 +28,13 @@ export class CategoriesService {
     },
   ];
 
-  constructor() {}
+  constructor(private filter: FilterService) {}
 
   getCategories(): Observable<Category[]> {
     return of(this.categories);
   }
 
-  getListingsByCategoryId(id: string) {
-    console.log('Category id: ', id);
+  getListingsByCategoryId(categoryId: string) {
+    this.filter.categoryFilter$.next(categoryId);
   }
 }
