@@ -15,6 +15,7 @@ import { Observable, of, defer } from 'rxjs';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
+import { stringify } from '@angular/compiler/src/util';
 
 @Component({
   selector: 'app-create-listing',
@@ -45,9 +46,11 @@ export class CreateListingComponent implements OnInit {
   initializeForm() {
     this.createListingForm = new FormGroup({
       title: new FormControl('', [Validators.required]),
+      city: new FormControl('', [Validators.required]),
+      category: new FormControl('', [Validators.required]),
       price: new FormControl('', [Validators.required]),
       description: new FormControl(''),
-      isNew: new FormControl(null, [Validators.required]),
+      state: new FormControl(null, [Validators.required]),
       photos: new FormControl(null),
     });
   }
@@ -55,7 +58,9 @@ export class CreateListingComponent implements OnInit {
   createHandler() {
     let listingBody: Ilisting = {
       authorId: this.currentUserId,
-      isNew: this.createListingForm.value.isNew,
+      cityId: this.createListingForm.value.city,
+      categoryId: this.createListingForm.value.category,
+      state: this.createListingForm.value.state,
       title: this.createListingForm.value.title,
       price: this.createListingForm.value.price,
       description: this.createListingForm.value.description,

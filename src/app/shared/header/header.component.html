@@ -5,7 +5,7 @@
         <h1 [routerLink]="['/']">MARKET BOARD</h1>
       </div>
 
-      <form [formGroup]="form" (ngSubmit)="searchHandler()">
+      <form [formGroup]="searchForm" (ngSubmit)="searchHandler()">
         <div class="input-group flex-nowrap">
           <div class="input-group-prepend">
             <span class="input-group-text" id="addon-wrapping">
@@ -25,9 +25,11 @@
     <nav>
       <ul class="header__list">
         <li>
-          <a [routerLink]="['/listing', 'create']" class="header__list--create">Create listing</a>
+          <a [routerLink]="['/listing', 'create']" class="header__list--create"
+            >Create listing</a
+          >
         </li>
-        <li *ngIf='!isLogged; else isLoggedPanel'>
+        <li *ngIf="!isLogged; else isLoggedPanel">
           <a [routerLink]="['/login']">Login</a>
         </li>
         <ng-template #isLoggedPanel>
@@ -35,7 +37,7 @@
             <a [routerLink]="['/account']">Account</a>
             <button (click)="logout()">Logout</button>
           </li>
-        </ng-template> 
+        </ng-template>
       </ul>
     </nav>
   </div>

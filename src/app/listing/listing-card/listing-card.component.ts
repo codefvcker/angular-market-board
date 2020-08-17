@@ -12,6 +12,6 @@ export class ListingCardComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    console.log(this.listing.photosUrls[0]);
+    console.log('this listing', this.listing);
   }
 }

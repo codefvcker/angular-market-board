@@ -1,3 +1,6 @@
 <div class="vip-section">
-  VIP SECTION
+  <app-listing-card
+    *ngFor="let listing of vipListings$"
+    [listing]="listing"
+  ></app-listing-card>
 </div>

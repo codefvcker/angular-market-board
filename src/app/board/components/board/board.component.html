@@ -8,6 +8,7 @@
       <app-listing-card
         *ngFor="let listing of listings$"
         [listing]="listing"
+        (click)="listingCardClickHandler(listing.id)"
       ></app-listing-card>
     </div>
   </div>

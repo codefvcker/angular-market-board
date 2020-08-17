@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs';
 import { Ilisting } from './../../../listing/interfaces/listing.interface';
 import { BoardService } from './../../services/board.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { Params, Router } from '@angular/router';
 
 @Component({
   selector: 'app-board',
@@ -18,7 +18,7 @@ export class BoardComponent implements OnInit, OnDestroy {
   public listings$: Ilisting[];
 
   constructor(
-    private route: ActivatedRoute,
+    private router: Router,
     private boardService: BoardService,
     private filter: FilterService
   ) {}
@@ -28,6 +28,10 @@ export class BoardComponent implements OnInit, OnDestroy {
       this.listings$ = data;
       console.log('filtred data', data);
     });
+  }
+
+  listingCardClickHandler(listingId: string) {
+    this.router.navigate(['listing', listingId]);
   }
 
   ngOnDestroy() {

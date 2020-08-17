@@ -1,7 +1,9 @@
+import { FilterService } from './../../board/services/filter.service';
 import { AlertService } from './../services/alert.service';
 import { AuthService } from './../../auth/services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import { debounce, debounceTime, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
@@ -9,29 +11,37 @@ import { FormGroup, FormControl } from '@angular/forms';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-  form: FormGroup;
+  searchForm: FormGroup;
   isLogged: boolean = false;
 
-  constructor(private auth: AuthService) {}
+  constructor(private auth: AuthService, private filter: FilterService) {}
 
   ngOnInit(): void {
-    this.form = new FormGroup({
+    this.searchForm = new FormGroup({
       search: new FormControl(null),
     });
-    this.isLoggedChecker()
+    this.isLoggedChecker();
+
+    this.searchForm
+      .get('search')
+      .valueChanges.pipe(
+        debounceTime(800)
+        // switchMap(value => this.filter.titleFilter$.next(value))
+      )
+      .subscribe((value) => this.filter.titleFilter$.next(value));
   }
 
   isLoggedChecker() {
-    this.auth.isAuthorized().subscribe(data =>this.isLogged = !!data)
-    console.log(this.isLogged)
+    this.auth.isAuthorized().subscribe((data) => (this.isLogged = !!data));
+    console.log(this.isLogged);
   }
 
   logout() {
-    this.auth.signOut()
+    this.auth.signOut();
   }
 
   searchHandler() {
-    console.log(this.form.value.search);
-    this.form.reset();
+    console.log(this.searchForm.value.search);
+    this.searchForm.reset();
   }
 }
