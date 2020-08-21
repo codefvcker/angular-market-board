@@ -1,7 +1,9 @@
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Ilisting } from './../../../listing/interfaces/listing.interface';
 import { FilterService } from './../../services/filter.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-vip-section',
@@ -13,7 +15,11 @@ export class VipSectionComponent implements OnInit, OnDestroy {
   public vipListings$: Ilisting[];
 
   // TODO rebase that from filter service and make new injection
-  constructor(private filter: FilterService) {}
+  constructor(
+    private filter: FilterService,
+    private router: Router,
+    private http: HttpClient
+  ) {}
 
   ngOnInit(): void {
     this.getVipListings();
@@ -25,6 +31,10 @@ export class VipSectionComponent implements OnInit, OnDestroy {
         this.vipListings$ = vipListings;
       })
     );
+  }
+
+  listingCardClickHandler(listingId: string) {
+    this.router.navigate(['/listing', listingId]);
   }
 
   ngOnDestroy() {

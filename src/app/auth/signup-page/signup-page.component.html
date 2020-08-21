@@ -5,6 +5,42 @@
     (ngSubmit)="submitHandler()"
   >
     <h1>{{ "signup" | uppercase }}</h1>
+
+    <div
+      class="form-group"
+      [ngClass]="{
+        invalid:
+          signinForm.get('displayName').invalid &&
+          signinForm.get('displayName').touched
+      }"
+    >
+      <label for="displayName">Name</label>
+      <input
+        type="text"
+        class="form-control"
+        id="displayName"
+        formControlName="displayName"
+        placeholder="Name"
+      />
+      <ng-template #nameHelp>
+        <small id="emailHelp" class="form-text text-muted"
+          >It could be ur nickname or ur name in real life.</small
+        >
+      </ng-template>
+      <div
+        class="validation"
+        *ngIf="
+          signinForm.get('displayName').invalid &&
+            signinForm.get('displayName').touched;
+          else nameHelp
+        "
+      >
+        <small *ngIf="signinForm.get('displayName').errors.required">
+          Name is required
+        </small>
+      </div>
+    </div>
+
     <div
       class="form-group"
       [ngClass]="{

@@ -28,49 +28,44 @@ export class FilterService {
       this.fromPriceFilter$,
       this.toPriceFilter$,
       this.stateFilter$,
-      this.cityFilter$,
-      this.titleFilter$
+      this.cityFilter$
     ).pipe(
-      switchMap(
-        ([categoryId, fromPrice, toPrice, goodsState, cityId, listingTitle]) =>
-          this.af
-            .collection('listings', (ref) => {
-              let query:
-                | firebase.firestore.CollectionReference
-                | firebase.firestore.Query = ref;
+      switchMap(([categoryId, fromPrice, toPrice, goodsState, cityId]) =>
+        this.af
+          .collection('listings', (ref) => {
+            let query:
+              | firebase.firestore.CollectionReference
+              | firebase.firestore.Query = ref;
 
-              if (categoryId) {
-                query = query.where('categoryId', '==', categoryId);
-              }
-              if (fromPrice) {
-                query = query.where('price', '>', fromPrice);
-              }
-              if (toPrice) {
-                query = query.where('price', '<', toPrice);
-              }
-              if (goodsState) {
-                query = query.where('isNew', '==', goodsState);
-              }
-              if (cityId) {
-                query = query.where('cityId', '==', cityId);
-              }
-              if (listingTitle) {
-                query = query.startAt(listingTitle);
-              }
+            if (categoryId) {
+              query = query.where('categoryId', '==', categoryId);
+            }
+            if (fromPrice) {
+              query = query.where('price', '>', fromPrice);
+            }
+            if (toPrice) {
+              query = query.where('price', '<', toPrice);
+            }
+            if (goodsState) {
+              query = query.where('state', '==', goodsState);
+            }
+            if (cityId) {
+              query = query.where('cityId', '==', cityId);
+            }
 
-              return query;
+            return query;
+          })
+          .snapshotChanges()
+          .pipe(
+            map((listings: any) => {
+              const newListings = listings.map((doc) => {
+                let data = doc.payload.doc.data();
+                let id = doc.payload.doc.id;
+                return { id, ...data };
+              });
+              return newListings;
             })
-            .snapshotChanges()
-            .pipe(
-              map((listings: any) => {
-                const newListings = listings.map((doc) => {
-                  let data = doc.payload.doc.data();
-                  let id = doc.payload.doc.id;
-                  return { id, ...data };
-                });
-                return newListings;
-              })
-            )
+          )
       )
     );
   }
@@ -83,7 +78,17 @@ export class FilterService {
   getVipListings() {
     return this.af
       .collection('listings', (ref) => ref.where('isVip', '==', true).limit(3))
-      .valueChanges();
+      .snapshotChanges()
+      .pipe(
+        map((listings: any) => {
+          const newListings = listings.map((doc) => {
+            let data = doc.payload.doc.data();
+            let id = doc.payload.doc.id;
+            return { id, ...data };
+          });
+          return newListings;
+        })
+      );
   }
 
   // Todo rebase this too

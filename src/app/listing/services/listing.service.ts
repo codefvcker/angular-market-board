@@ -1,5 +1,5 @@
-import { Ilisting } from './../interfaces/listing.interface';
-import { AuthService } from './../../auth/services/auth.service';
+import { Ilisting } from '../interfaces/listing.interface';
+import { AuthService } from '../../auth/services/auth.service';
 import { finalize } from 'rxjs/operators';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Injectable } from '@angular/core';
@@ -7,7 +7,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { defer, Observable } from 'rxjs';
 
 @Injectable()
-export class CreateListingService {
+export class ListingService {
   private selectedUrls: string[] = [];
 
   constructor(
@@ -15,6 +15,20 @@ export class CreateListingService {
     private af: AngularFirestore,
     private auth: AuthService
   ) {}
+
+  getAllListings(): Observable<Ilisting[]> {
+    return this.af
+      .collection<Ilisting>('listings', (ref) => ref.limit(20))
+      .valueChanges();
+  }
+
+  getListingById() {}
+
+  getListingsByUserId(uid: string) {
+    return this.af
+      .collection('listings', (ref) => ref.where('authorId', '==', uid))
+      .valueChanges();
+  }
 
   createListing(listing: Ilisting) {
     let listingBody: Ilisting = { ...listing, photosUrls: this.selectedUrls };
@@ -30,6 +44,7 @@ export class CreateListingService {
     });
   }
 
+  // Rebase method into the shared module
   addSelectedFile(filePath, file) {
     const storagePlace = this.storage.upload(filePath, file);
     const fileRef = this.storage.ref(filePath);
@@ -39,7 +54,6 @@ export class CreateListingService {
         fileRef.getDownloadURL().subscribe((url) => {
           if (url) {
             this.selectedUrls.push(url);
-            console.log('selected from service', this.selectedUrls);
           }
         });
       })

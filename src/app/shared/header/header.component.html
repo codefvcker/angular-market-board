@@ -34,7 +34,7 @@
         </li>
         <ng-template #isLoggedPanel>
           <li>
-            <a [routerLink]="['/account']">Account</a>
+            <a [routerLink]="['/account', currentUser.uid]">Account</a>
             <button (click)="logout()">Logout</button>
           </li>
         </ng-template>

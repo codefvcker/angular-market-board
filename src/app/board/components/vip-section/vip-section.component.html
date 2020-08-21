@@ -2,5 +2,6 @@
   <app-listing-card
     *ngFor="let listing of vipListings$"
     [listing]="listing"
+    (click)="listingCardClickHandler(listing.id)"
   ></app-listing-card>
 </div>

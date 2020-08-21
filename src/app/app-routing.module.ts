@@ -11,27 +11,43 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { BoardComponent } from './board/components/board/board.component';
 
-import { AngularFireAuthGuard, redirectUnauthorizedTo, redirectLoggedInTo } from '@angular/fire/auth-guard';
+import {
+  AngularFireAuthGuard,
+  redirectUnauthorizedTo,
+  redirectLoggedInTo,
+} from '@angular/fire/auth-guard';
 
-const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login'])
-const redirectLoggedInToListings = () => redirectLoggedInTo(['listings'])
+const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['login']);
+const redirectLoggedInToListings = () => redirectLoggedInTo(['listings']);
 
 const routes: Routes = [
   { path: '', redirectTo: 'listings', pathMatch: 'full' },
   { path: 'listings', component: BoardComponent },
-  { path: 'login', component: LoginPageComponent,  canActivate: [AngularFireAuthGuard], data: {authGuardPipe: redirectLoggedInToListings} },
-  { path: 'signup', component: SignupPageComponent,  canActivate: [AngularFireAuthGuard], data: {authGuardPipe: redirectLoggedInToListings} },
+  {
+    path: 'login',
+    component: LoginPageComponent,
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectLoggedInToListings },
+  },
+  {
+    path: 'signup',
+    component: SignupPageComponent,
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectLoggedInToListings },
+  },
   // { path: 'training', component: TrainingComponent }, //playground
   {
-    path: 'account',
+    path: 'account/:id',
     component: AccountPageComponent,
     canActivate: [AngularFireAuthGuard],
-    data: {authGuardPipe: redirectUnauthorizedToLogin}
+    data: { authGuardPipe: redirectUnauthorizedToLogin },
   },
   {
     path: 'listing/create',
     pathMatch: 'full',
-    component: CreateListingComponent
+    component: CreateListingComponent,
+    canActivate: [AngularFireAuthGuard],
+    data: { authGuardPipe: redirectUnauthorizedToLogin },
   },
   {
     path: 'listing/:id',

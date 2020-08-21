@@ -1,8 +1,9 @@
+import { IUser } from './../../shared/interfaces/user.interface';
 import { Router } from '@angular/router';
 import { Ilisting } from './../interfaces/listing.interface';
 import { AuthService } from './../../auth/services/auth.service';
 import { AlertService } from './../../shared/services/alert.service';
-import { CreateListingService } from './../services/create-listing.service';
+import { ListingService } from './../services/listing.service';
 import {
   finalize,
   switchMap,
@@ -30,7 +31,7 @@ export class CreateListingComponent implements OnInit {
   downloadUrl: Observable<string>;
 
   constructor(
-    private createListingService: CreateListingService,
+    private listingService: ListingService,
     private alert: AlertService,
     private auth: AuthService,
     private router: Router
@@ -38,8 +39,8 @@ export class CreateListingComponent implements OnInit {
 
   ngOnInit(): void {
     this.initializeForm();
-    this.auth.getCurrentUserInfo().subscribe((info: any) => {
-      this.currentUserId = info.uid;
+    this.auth.user$.subscribe((userData: IUser) => {
+      this.currentUserId = userData.uid;
     });
   }
 
@@ -66,7 +67,7 @@ export class CreateListingComponent implements OnInit {
       description: this.createListingForm.value.description,
     };
 
-    this.createListingService.createListing(listingBody).subscribe(
+    this.listingService.createListing(listingBody).subscribe(
       () => {
         this.router.navigate(['/listings']);
         this.alert.success('Listing created successfully');
@@ -83,15 +84,13 @@ export class CreateListingComponent implements OnInit {
     const date = Date.now();
     const filePath = `ListingImages/users/${date}`;
 
-    this.createListingService
-      .addSelectedFile(filePath, e.target.files[0])
-      .subscribe(
-        (data) => {
-          this.alert.success('Image is uploaded');
-        },
-        (e) => {
-          this.alert.danger(`Something went wrong. Image didn't upload`);
-        }
-      );
+    this.listingService.addSelectedFile(filePath, e.target.files[0]).subscribe(
+      (data) => {
+        this.alert.success('Image is uploaded');
+      },
+      (e) => {
+        this.alert.danger(`Something went wrong. Image didn't upload`);
+      }
+    );
   }
 }

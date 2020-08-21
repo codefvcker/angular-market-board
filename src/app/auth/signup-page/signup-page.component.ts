@@ -3,9 +3,7 @@ import { AuthService } from '../services/auth.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
-import {
-  AngularFirestore,
-} from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 
 @Component({
@@ -35,7 +33,6 @@ export class SignupPageComponent implements OnInit, OnDestroy {
       .subscribe((querySnapshot) => {
         querySnapshot.forEach((doc) => {
           this.b = doc.data();
-          console.log(this.b.name);
         });
       });
   }
@@ -43,6 +40,7 @@ export class SignupPageComponent implements OnInit, OnDestroy {
   initializeForm() {
     this.signinForm = new FormGroup(
       {
+        displayName: new FormControl(null, [Validators.required]),
         email: new FormControl(null, [Validators.email, Validators.required]),
         password: new FormControl('', [
           Validators.required,
@@ -64,13 +62,17 @@ export class SignupPageComponent implements OnInit, OnDestroy {
     if (this.signinForm.valid) {
       this.subscriprion.add(
         this.authService
-          .signUp(this.signinForm.value.email, this.signinForm.value.password)
+          .signUp(
+            this.signinForm.value.displayName,
+            this.signinForm.value.email,
+            this.signinForm.value.password
+          )
           .subscribe(
             () => {
               this.router.navigate(['/listings']);
             },
             (error) => {
-              this.alert.danger(error.message)
+              this.alert.danger(error.message);
             }
           )
       );

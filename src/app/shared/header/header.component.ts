@@ -1,18 +1,22 @@
+import { IUser } from './../interfaces/user.interface';
 import { FilterService } from './../../board/services/filter.service';
 import { AlertService } from './../services/alert.service';
 import { AuthService } from './../../auth/services/auth.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { debounce, debounceTime, switchMap } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
+  subscription: Subscription = new Subscription();
   searchForm: FormGroup;
   isLogged: boolean = false;
+  currentUser: IUser;
 
   constructor(private auth: AuthService, private filter: FilterService) {}
 
@@ -22,18 +26,36 @@ export class HeaderComponent implements OnInit {
     });
     this.isLoggedChecker();
 
-    this.searchForm
-      .get('search')
-      .valueChanges.pipe(
-        debounceTime(800)
-        // switchMap(value => this.filter.titleFilter$.next(value))
-      )
-      .subscribe((value) => this.filter.titleFilter$.next(value));
+    this.subscription.add(
+      this.searchForm
+        .get('search')
+        .valueChanges.pipe(
+          debounceTime(800)
+          // switchMap(value => this.filter.titleFilter$.next(value))
+        )
+        .subscribe((value) => this.filter.titleFilter$.next(value))
+    );
+
+    this.getCurrentUser();
   }
 
   isLoggedChecker() {
-    this.auth.isAuthorized().subscribe((data) => (this.isLogged = !!data));
-    console.log(this.isLogged);
+    this.subscription.add(
+      this.auth.user$.subscribe((data) => {
+        console.log('isLogged data', data);
+        console.log('isLogged just - ', this.isLogged);
+        this.isLogged = !!data;
+        console.log('isLogged after - ', this.isLogged);
+      })
+    );
+  }
+
+  getCurrentUser() {
+    this.subscription.add(
+      this.auth.user$.subscribe((user) => {
+        this.currentUser = user;
+      })
+    );
   }
 
   logout() {
@@ -41,7 +63,10 @@ export class HeaderComponent implements OnInit {
   }
 
   searchHandler() {
-    console.log(this.searchForm.value.search);
     this.searchForm.reset();
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }

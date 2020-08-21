@@ -1,3 +1,4 @@
+import { AlertInterceptor } from './shared/interceptors/alert.interceptor';
 import { ListingModule } from './listing/listing.module';
 import { AccountModule } from './account/account.module';
 import { AuthModule } from './auth/auth.module';
@@ -9,6 +10,14 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+
+const ALERT_INTERCEPTOR = {
+  provide: HTTP_INTERCEPTORS,
+  useClass: AlertInterceptor,
+  multi: true,
+};
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -18,9 +27,10 @@ import { AppComponent } from './app.component';
     BoardModule,
     AuthModule,
     AccountModule,
-    ListingModule
+    ListingModule,
+    HttpClientModule,
   ],
-  providers: [],
+  providers: [ALERT_INTERCEPTOR],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

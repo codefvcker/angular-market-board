@@ -1,3 +1,55 @@
-<div>
-  Account page
+<div class="account container">
+  <div class="account__options">
+    <div class="account__photo-wrap">
+      <img *ngIf="!isEditing" src="" alt="avatar" />
+      <span class="account__upload-photo" *ngIf="isEditing">
+        <label for="customFile">Upload photo</label>
+        <input
+          type="file"
+          class="custom-file-input"
+          id="customFile"
+          (change)="onFileSelected($event)"
+        />
+      </span>
+    </div>
+
+    <button class="btn btn-primary" (click)="editingModeToggle()">
+      {{ isEditing ? "Save" : "Edit profile" }}
+    </button>
+  </div>
+
+  <div *ngIf="currentUser; else loader" class="account__content">
+    <div class="account__info">
+      <h2 *ngIf="!isEditing; else editName">{{ currentUser.displayName }}</h2>
+      <ng-template #editName>
+        <div>
+          <input
+            type="text"
+            class="form-control"
+            id="editName"
+            [placeholder]="currentUser.displayName"
+          />
+        </div>
+      </ng-template>
+      <small>
+        online
+      </small>
+    </div>
+
+    <div class="account__listings">
+      <h5>All user's listings:</h5>
+      <div class="account__listings-list">
+        <app-listing-card
+          *ngFor="let listing of userListings"
+          [listing]="listing"
+        ></app-listing-card>
+      </div>
+    </div>
+  </div>
 </div>
+
+<ng-template #loader>
+  <div class="loader">
+    Loading...
+  </div>
+</ng-template>

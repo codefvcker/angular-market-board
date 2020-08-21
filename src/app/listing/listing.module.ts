@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { CreateListingComponent } from './create-listing/create-listing.component';
 import { ListingPageComponent } from './listing-page/listing-page.component';
 import { ListingCardComponent } from './listing-card/listing-card.component';
-import { CreateListingService } from './services/create-listing.service';
+import { ListingService } from './services/listing.service';
 
 @NgModule({
   declarations: [
@@ -16,6 +16,6 @@ import { CreateListingService } from './services/create-listing.service';
   ],
   imports: [CommonModule, FormsModule, ReactiveFormsModule, SharedModule],
   exports: [ListingCardComponent],
-  providers: [CreateListingService],
+  providers: [ListingService],
 })
 export class ListingModule {}
