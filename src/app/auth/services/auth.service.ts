@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { auth } from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
+import * as firebase from 'firebase/app';
 
 import {
   AngularFirestore,
@@ -54,9 +55,10 @@ export class AuthService {
       return this.afAuth
         .signInWithEmailAndPassword(email, password)
         .then((credentials) => {
-          let { displayName, uid, email } = credentials.user;
-          this.localStorageSetUtil({ displayName, uid, email });
-          this.user$.next({ displayName, uid, email });
+          console.log('CREDS', credentials.user);
+          let { displayName, uid, email, photoURL } = credentials.user;
+          this.localStorageSetUtil({ displayName, uid, email, photoURL });
+          this.user$.next({ displayName, uid, email, photoURL });
           return credentials.user;
         });
     });
@@ -90,6 +92,13 @@ export class AuthService {
     console.log('NEW USER DATA WITH NAME IS ', data);
 
     this.af.doc(`users/${uid}`).set(data);
+  }
+
+  updateUser(updateData: any) {
+    // firebase.auth().currentUser.updateProfile(updateData);
+    return defer(() => {
+      return firebase.auth().currentUser.updateProfile(updateData);
+    });
   }
 
   // Local storage util functions

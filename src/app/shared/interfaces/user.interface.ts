@@ -4,5 +4,5 @@ export interface IUser {
   email: string;
   uid?: string;
   displayName?: string;
-  photoUrl?: string;
+  photoURL?: string;
 }

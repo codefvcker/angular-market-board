@@ -86,7 +86,7 @@ export class CreateListingComponent implements OnInit {
 
     this.listingService.addSelectedFile(filePath, e.target.files[0]).subscribe(
       (data) => {
-        this.alert.success('Image is uploaded');
+        this.alert.success('Image uploaded');
       },
       (e) => {
         this.alert.danger(`Something went wrong. Image didn't upload`);

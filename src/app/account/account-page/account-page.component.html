@@ -8,7 +8,7 @@
           type="file"
           class="custom-file-input"
           id="customFile"
-          (change)="onFileSelected($event)"
+          (change)="onPhotoUploaded($event)"
         />
       </span>
     </div>
@@ -27,13 +27,11 @@
             type="text"
             class="form-control"
             id="editName"
-            [placeholder]="currentUser.displayName"
+            [(ngModel)]="userEditedName"
           />
         </div>
       </ng-template>
-      <small>
-        online
-      </small>
+      <small> online </small>
     </div>
 
     <div class="account__listings">
@@ -49,7 +47,5 @@
 </div>
 
 <ng-template #loader>
-  <div class="loader">
-    Loading...
-  </div>
+  <div class="loader">Loading...</div>
 </ng-template>

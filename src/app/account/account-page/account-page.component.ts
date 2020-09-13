@@ -1,3 +1,4 @@
+import { AccountService } from './../services/account.service';
 import { AlertService } from './../../shared/services/alert.service';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
@@ -16,13 +17,15 @@ import { Subscription } from 'rxjs';
 export class AccountPageComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
 
-  private isEditing: boolean = false;
+  public isEditing: boolean = false;
   public currentUser: IUser;
   public userListings: Ilisting[] = [];
+  public userEditedName: string = 'ccvc';
 
   constructor(
     private auth: AuthService,
     private listingService: ListingService,
+    private accountService: AccountService,
     private router: Router,
     private alert: AlertService
   ) {}
@@ -40,7 +43,10 @@ export class AccountPageComponent implements OnInit, OnDestroy {
             if (!user) this.router.navigate(['listings']);
           })
         )
-        .subscribe((user) => (this.currentUser = user))
+        .subscribe((user) => {
+          this.currentUser = user;
+          console.log(user);
+        })
     );
   }
 
@@ -54,10 +60,21 @@ export class AccountPageComponent implements OnInit, OnDestroy {
   }
 
   editingModeToggle() {
+    const updateData = {
+      displayName: this.userEditedName,
+      email: this.currentUser.email,
+    };
+
+    console.log('UPPPPP', updateData);
+
     this.isEditing = !this.isEditing;
 
     if (!this.isEditing) {
-      console.log('saved');
+      this.accountService
+        .updateUserById(this.currentUser.uid, updateData)
+        .subscribe((data) => {
+          this.alert.success('User data was updated');
+        });
     }
   }
 
@@ -65,9 +82,10 @@ export class AccountPageComponent implements OnInit, OnDestroy {
     const date = Date.now();
     const filePath = `UsersPhotos/${date}`;
 
-    this.listingService.addSelectedFile(filePath, e.target.files[0]).subscribe(
+    this.accountService.addSelectedFile(filePath, e.target.files[0]).subscribe(
       (data) => {
         this.alert.success('Photo uploaded');
+        console.log('data from subscr', data);
       },
       (err) => {
         this.alert.danger(`Something went wrong. Error is: ${err.message}`);
